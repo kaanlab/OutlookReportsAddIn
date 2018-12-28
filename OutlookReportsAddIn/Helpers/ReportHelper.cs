@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
+using System.Xml;
+using System.Xml.Serialization;
 using Word = Microsoft.Office.Interop.Word;
 
 
@@ -8,7 +9,7 @@ namespace OutlookReportsAddIn
 {
     public class ReportHelper
     {
-        public void CreateDoc(DateTime selectedDate, IEnumerable<EmailModel> emails)
+        public void CreateDoc(DateTime selectedDate, IEnumerable<Mail> emails)
         {
             try
             {
@@ -25,9 +26,9 @@ namespace OutlookReportsAddIn
                 //Create a missing variable for missing value
                 object missing = System.Reflection.Missing.Value;
 
+                //Use ConfigurationHelper class to read OutlookReportsAddIn.dll.config 
                 
-                // Use template path from OutlookReportsAddIn.dll.config
-                object filepath = ConfigurationManager.AppSettings["TemplatePath"];                   
+                object filepath = Properties.Settings.Default.TemplatePath; 
 
                 //Create a new document
                 Word.Document document = winword.Documents.Add(ref filepath, ref missing, ref missing, ref missing);

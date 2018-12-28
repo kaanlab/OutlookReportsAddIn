@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+
+      <Component Id="OutlookReportsAddIn_vsto_Component" Guid="{91CDF0E1-CE15-4424-8560-16467897040B}">
+        <File Id="OutlookReportsAddIn_vsto" 
+              KeyPath="yes"
+              Name="OutlookReportsAddIn.vsto" 
+              Source="$(var.OutlookReportsAddIn.TargetDir)">          
+        </File>
+      </Component>
+
+      <Component Id="OutlookReportsAddIn_dll_manifest_Component" Guid="{5DD795A6-6AA9-496E-9CA5-2516C410F101}">
+        <File Id="OutlookReportsAddIn_dll_manifest" 
+              KeyPath="yes"
+              Name="OutlookReportsAddIn.dll.manifest" 
+              Source="$(var.OutlookReportsAddIn.TargetDir)">          
+        </File>
+      </Component>
+
+      <Component Id="MSOfficeToolsCommon_dll_Component" Guid="{0FE3B5A6-6DB7-4EEA-91BC-67EA707B0C41}">
+        <File Id="MSOfficeToolsCommon_dll" 
+              KeyPath="yes"
+              Name="Microsoft.Office.Tools.Common.v4.0.Utilities.dll"
+              Source="$(var.OutlookReportsAddIn.TargetDir)">          
+        </File>
+      </Component>
+
+      <Component Id="MSOfficeToolsOutlook_dll_Component" Guid="{ED598459-5676-4579-87F3-41E162CB83C8}">
+        <File Id="MSOfficeToolsOutlook_dll" 
+              KeyPath="yes"
+              Name="Microsoft.Office.Tools.Outlook.v4.0.Utilities.dll"
+              Source="$(var.OutlookReportsAddIn.TargetDir)">          
+        </File>
+      </Component>
+
+      <Component Id="OutlookReportsAddIn_dll_Component" Guid="{E5822F03-D005-446A-997E-EBCA236238B2}">
+        <File Id="OutlookReportsAddIn_dll" 
+              KeyPath="yes"
+              Name="OutlookReportsAddIn.dll" 
+              Source="$(var.OutlookReportsAddIn.TargetDir)">
+        </File>
+      </Component>
+
+      <Component Id="OutlookReportsAddIn_dll_config_Component" Guid="{174282A7-629A-4C27-8C3D-950B3C124EBB}">
+        <File Id="OutlookReportsAddIn_dll_config"
+              KeyPath="yes"
+              Name="OutlookReportsAddIn.dll.config"
+              Source="$(var.OutlookReportsAddIn.TargetDir)">
+        </File>
+      </Component>
+
+      <Component Id="JornalTemplate_dotx_Component" Guid="{C5A698B3-AC18-4286-A615-A8A3F5E0CA52}">
+        <File Id="JornalTemplate_dotx" 
+              KeyPath="yes"
+              Name="JornalTemplate.dotx" 
+              Source="$(var.OutlookReportsAddIn.TargetDir)">
+        </File>          
+      </Component>
+
+    </ComponentGroup>
+  </Fragment>
+</Wix>

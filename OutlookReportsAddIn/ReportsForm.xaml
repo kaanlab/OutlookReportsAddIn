@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:OutlookReportsAddIn"
-             mc:Ignorable="d"
+             mc:Ignorable="d"             
              Title="{Binding Title}"
              MinHeight="450" 
              MinWidth="600"
@@ -18,14 +18,15 @@
                 <!-- Datepicker -->
                 <Grid>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.5*"></ColumnDefinition>
                         <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="0.3*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
-                    <DatePicker Margin="10 10 5 10"
-                                Grid.Column="0"
-                                HorizontalAlignment="Left"
+                    <DatePicker Margin="10 10"
+                                Grid.Column="0"                                
                                 VerticalAlignment="Center"
                                 SelectedDate="{Binding SetDate}"
                                 SelectedDateFormat="Short">
@@ -36,38 +37,55 @@
                         </DatePicker.Resources>
                     </DatePicker>
 
-                    <!-- GetDate button -->
-                    <Button  Margin="0 10"
+                    <!-- Generate datagrid for current date button -->
+                    <Button  Margin="10 10"
                              Padding="5 5"
                              Grid.Column="1"
-                             Content="Сформировать таблицу"
+                             Content="Сформировать отчет"
                              Command="{Binding FetchItemsCommand}"
-                             HorizontalAlignment="Center"/>
+                             HorizontalAlignment="Center" />
 
-                    <!-- Report button -->
+                    <!-- Generate report button -->
                     <Button Margin="10 10"
-                        Padding="5 5"
-                        Grid.Column="2"
-                        Content="Печать"
+                            Padding="5 5"
+                            Grid.Column="2"
+                            Content="Печать"
                             IsEnabled="{Binding HasItems}"
-                        Command="{Binding CreateReportCommand}"
-                        HorizontalAlignment="Right" />
+                            Command="{Binding CreateReportCommand}" />
+                    
+                    <!-- Template path -->
+                    <TextBlock Margin="10 10"
+                               Padding="5 5"
+                               Grid.Column="3"                              
+                               Text="{Binding TemplatePath}"
+                               TextTrimming="CharacterEllipsis"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center" />
+
+                    <!-- Set template button -->
+                    <Button Margin="10 10"
+                            Padding="5 5"
+                            Grid.Column="4"
+                            Content="Шаблон"
+                            Command="{Binding SetTemplatePathCommand}" />                    
                 </Grid>
+
                 <Separator/>
+
                 <StackPanel>
-
                     <!-- DataGrid -->
-                    <TextBlock Margin="10 3" Text="{Binding SetDate, StringFormat='Письма за {0:dd.MM.yyyy}'}"></TextBlock>
+                    <TextBlock Margin="10 3" 
+                               Text="{Binding SetDate, StringFormat='Письма за {0:dd.MM.yyyy}'}" />
 
-                    <DataGrid Margin="10 5" 
-                                  
-                          ItemsSource="{Binding ItemsCollection}" 
-                          AutoGenerateColumns="False" 
-                          HorizontalGridLinesBrush="DarkGray"
-                          RowBackground="LightGray" 
-                          AlternatingRowBackground="White"
-                                  ScrollViewer.CanContentScroll="False"                                    
-                                  Height="310">
+                    <DataGrid Margin="10 5"                                  
+                              ItemsSource="{Binding ItemsCollection}" 
+                              AutoGenerateColumns="False" 
+                              HorizontalGridLinesBrush="DarkGray"
+                              RowBackground="LightGray" 
+                              AlternatingRowBackground="White"
+                              ScrollViewer.CanContentScroll="False"
+                              CanUserAddRows="False"
+                              Height="310">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Исх./Вход адрес" Binding="{Binding Path=SenderAddress}" Width="0.4*" />
                             <DataGridTextColumn Header="Фаил (КБ)" Binding="{Binding Path=Attachments}" Width="0.5*" />
@@ -81,17 +99,18 @@
             </StackPanel>
 
             <!--Status bar -->
-            <StatusBar DockPanel.Dock="Bottom" Padding="10 3">
+            <StatusBar DockPanel.Dock="Bottom" 
+                       Padding="10 3">
                 <StatusBarItem>
-                    <TextBlock Text="{Binding AddInCopyright}"></TextBlock>
+                    <TextBlock Text="{Binding AddInCopyright}" />
                 </StatusBarItem>
                 <Separator/>
                 <StatusBarItem>
-                    <TextBlock Text="{Binding AddInCompany}"></TextBlock>
+                    <TextBlock Text="{Binding AddInCompany}" />
                 </StatusBarItem>
                 <Separator/>
                 <StatusBarItem>
-                    <TextBlock Text="{Binding AddInVersion}"></TextBlock>
+                    <TextBlock Text="{Binding AddInVersion}" />
                 </StatusBarItem>
             </StatusBar>
 

@@ -1,13 +1,8 @@
-﻿using Microsoft.Office.Interop.Outlook;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace OutlookReportsAddIn
 {
-    public class EmailModel
+    public class Mail
     {
         public string SenderAddress { get; set; }
 

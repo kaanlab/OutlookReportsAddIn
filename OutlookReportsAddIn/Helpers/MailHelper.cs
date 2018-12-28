@@ -8,9 +8,9 @@ namespace OutlookReportsAddIn
 {
     public static class MailHelper
     {
-        public static IEnumerable<EmailModel> SearchInFolder(DateTime date, OlDefaultFolders olFolder)
+        public static IEnumerable<Mail> SearchInFolder(DateTime date, OlDefaultFolders olFolder)
         {
-            var emailItems = new List<EmailModel>();
+            var emailItems = new List<Mail>();
             
             var accounts = Globals.ThisAddIn.Application.Session.Accounts;
 
@@ -28,7 +28,7 @@ namespace OutlookReportsAddIn
 
                         foreach (MailItem item in filtredItiems)
                         {
-                            var emailItem = new EmailModel();
+                            var emailItem = new Mail();
 
                             // sender
                             emailItem.SenderAddress = item.SenderEmailAddress;

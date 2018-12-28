@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+
+  <String Id="Company">kaanlab</String>
+
+  <String Id="ProductFolderName">OutlookReportsAddIn</String>
+  
+  <String Id="ProductName_x86">OutlookReportsAddIn (32bit)</String>
+  <String Id="ProductName_x64">OutlookReportsAddIn (64bit)</String>
+
+  <String Id="Language">1033</String>
+
+  <String Id="Description">OutlookReportsAddIn</String>  
+  <String Id="Comments">Generate reports from outlook in doc format</String>
+  <String Id="Keywords">Office, Outlook, Outlook AddIn, Reports, Installer</String>
+  
+  <String Id="DowngradeErrorMessage">A newer version of OutlookReportsAddIn is already installed.</String>
+
+</WixLocalization>
