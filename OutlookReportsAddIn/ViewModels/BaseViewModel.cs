@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 
+
 namespace OutlookReportsAddIn
 {
     public class BaseViewModel : INotifyPropertyChanged

@@ -2,10 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
+using System.IO;
 using System.Windows.Input;
-using System.Xml;
-using System.Xml.Serialization;
+
 
 namespace OutlookReportsAddIn
 {
@@ -17,31 +16,29 @@ namespace OutlookReportsAddIn
         public string AddInCopyright { get; private set; }
         public ObservableCollection<Mail> ItemsCollection { get; set; }
         public DateTime SetDate { get; set; } = DateTime.Now;
-
         public string TemplatePath { get; set; } = Properties.Settings.Default.TemplatePath;
-
-        public bool HasItems { get { return ItemsCollection?.Count > 0; } }
+        public bool TemplatePathExsist { get; set; }
+        public bool HasItems { get { return ItemsCollection?.Count > 0; } }        
 
         public ICommand FetchItemsCommand { get; set; }
         public ICommand CreateReportCommand { get; set; }
-
         public ICommand SetTemplatePathCommand { get; set; }
+
 
         public ReportViewModel()
         {
 
-            //var version = "";
-            //version..GetVersion();
-            AddInVersion = "ver.: " + AssemblyInfoHelper.Version.ToString();
+            AddInVersion = "v: " + AssemblyInfoHelper.Version.ToString();
             AddInCompany = AssemblyInfoHelper.Company.ToString();
             AddInCopyright = AssemblyInfoHelper.Copyright.ToString();
 
             FetchItemsCommand = new RelayCommand(FetchItems);
             CreateReportCommand = new RelayCommand(CreateReport);
             SetTemplatePathCommand = new RelayCommand(SetTemplate);
+            TemplatePathExsist = File.Exists(Properties.Settings.Default.TemplatePath);
 
         }
-
+               
         private void FetchItems()
         {
             var inboxMails = MailHelper.SearchInFolder(SetDate, OlDefaultFolders.olFolderInbox);
@@ -50,6 +47,7 @@ namespace OutlookReportsAddIn
             var itemsList = new List<Mail>();
             itemsList.AddRange(inboxMails);
             itemsList.AddRange(sentMails);
+            itemsList.Sort((x, y) => DateTime.Compare(x.Date, y.Date));
 
             ItemsCollection = new ObservableCollection<Mail>(itemsList);
         }
@@ -78,7 +76,7 @@ namespace OutlookReportsAddIn
                 Properties.Settings.Default.TemplatePath = dlg.FileName;
                 Properties.Settings.Default.Save();
                 TemplatePath = Properties.Settings.Default.TemplatePath;
-                //string filename = dlg.FileName;
+                TemplatePathExsist = true; // update image     
             }
 
         }

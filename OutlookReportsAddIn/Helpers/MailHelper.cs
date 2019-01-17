@@ -72,12 +72,12 @@ namespace OutlookReportsAddIn
                             // description
                             emailItem.Subject = "Тема сообщения: " + item.Subject;
                             
-                            emailItems.Add(emailItem);
+                            emailItems.Add(emailItem);                            
                         }
-                    }
-                }
+                    }                    
+                }                
             }
-
+            
             return emailItems;
 
         }
