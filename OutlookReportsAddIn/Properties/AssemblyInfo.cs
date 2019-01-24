@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("OutlookReportsAddIn")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Лаборатория ИОТ. Петрозаводское ПКУ")]
+[assembly: AssemblyCompany("Лаборатория ИОТ")]
 [assembly: AssemblyProduct("OutlookReportsAddIn")]
-[assembly: AssemblyCopyright("Copyright ©  2018-2019")]
+[assembly: AssemblyCopyright("Петрозаводское ПКУ © 2018-2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
