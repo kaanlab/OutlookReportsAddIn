@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:OutlookReportsAddIn.Views"
              xmlns:res="clr-namespace:OutlookReportsAddIn"
-              mc:Ignorable="d"             
+              mc:Ignorable="d"
              Title="{Binding WindowTitle}"
              MinHeight="450" 
              MinWidth="600"
@@ -18,88 +18,86 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid>
-        <DockPanel LastChildFill="False">
-            <!--Main content -->
-            <StackPanel DockPanel.Dock="Top">
-                <!-- Datepicker -->
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.5*"></ColumnDefinition>
-                        <ColumnDefinition Width="0.4*"></ColumnDefinition>
-                        <ColumnDefinition Width="0.5*"></ColumnDefinition>
-                        <ColumnDefinition Width="0.3*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="0.3*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
+    <!--Main content -->
+    <StackPanel>
+        <!-- Datepicker -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                <ColumnDefinition Width="0.6*"></ColumnDefinition>
+                <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="0.3*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
 
-                    <!-- Set row counter -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Label>Строка таблицы</Label>
-                        <TextBox Text="{Binding MailsCounter}" Margin="4" Padding="4"/>
-                    </StackPanel>
+            <!-- Row counter -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Label>Строка таблицы</Label>
+                <TextBox Text="{Binding MailsCounter}" Margin="4" Padding="4"/>
+            </StackPanel>
 
-                    <DatePicker Margin="10 10"
+            <DatePicker Margin="10 10"
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
                                 SelectedDate="{Binding SelectedDate}"
                                 SelectedDateFormat="Short">
-                        <DatePicker.Resources>
-                            <Style TargetType="DatePickerTextBox">
-                                <Setter Property="IsReadOnly" Value="True"/>
-                            </Style>
-                        </DatePicker.Resources>
-                    </DatePicker>
+                <DatePicker.Resources>
+                    <Style TargetType="DatePickerTextBox">
+                        <Setter Property="IsReadOnly" Value="True"/>
+                    </Style>
+                </DatePicker.Resources>
+            </DatePicker>
 
-                    <!-- Generate datagrid for current date button -->
-                    <Button  Margin="10 10"
+            <!-- Generate datagrid for current date button -->
+            <Button  Margin="10 10"
                              Padding="5 5"
                              Grid.Column="2"
                              Content="Сформировать отчет"
                              Command="{Binding FetchItemsCommand}"
                              HorizontalAlignment="Center" />
 
-                    <!-- Generate report button -->
-                    <Button Margin="10 10"
+            <!-- Generate report button -->
+            <Button Margin="10 10"
                             Padding="5 5"
                             Grid.Column="3"
                             Content="Печать"
                             IsEnabled="{Binding HasItems}"
                             Command="{Binding CreateReportCommand}" />
 
-                    <!-- Template path -->
-                    <StackPanel Orientation="Horizontal" 
+            <!-- Template path -->
+            <StackPanel Orientation="Horizontal" 
                                 Grid.Column="4"
                                 HorizontalAlignment="Left">
 
-                        <Image Margin="5 5"
+                <Image Margin="5 5"
                                Source="{Binding IsTemplatePathExsist, Converter={StaticResource BoolToImageConv}}"
                                Height="26" 
                                Width="26"/>
 
-                        <TextBlock Margin="10 10"
+                <TextBlock Margin="10 10"
                                    Padding="5 5"
                                    Text="{Binding TemplatePath}"
                                    VerticalAlignment="Center"
                                    TextTrimming="CharacterEllipsis" />
-                    </StackPanel>
+            </StackPanel>
 
-                    <!-- Set template button -->
-                    <Button Margin="10 10"
+            <!-- Set template button -->
+            <Button Margin="10 10"
                             Padding="5 5"
                             Grid.Column="5"
                             Content="Шаблон"
                             Command="{Binding SetTemplatePathCommand}" />
-                </Grid>
+        </Grid>
 
-                <Separator/>
+        <Separator/>
 
-                <StackPanel>
-                    <!-- DataGrid -->
-                    <TextBlock Margin="10 3" 
+        <StackPanel>
+            <!-- DataGrid -->
+            <TextBlock Margin="10 3" 
                                Text="{Binding SetDate, StringFormat='Письма за {0:dd.MM.yyyy}'}" />
 
-                    <DataGrid Margin="10 5"
+            <DataGrid Margin="10 5"
                               ItemsSource="{Binding ItemsCollection}" 
                               AutoGenerateColumns="False" 
                               HorizontalGridLinesBrush="DarkGray"
@@ -108,35 +106,15 @@
                               ScrollViewer.CanContentScroll="False"
                               CanUserAddRows="False"
                               Height="310">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Исх./Вход адрес" Binding="{Binding Path=SenderAddress}" Width="0.4*" />
-                            <DataGridTextColumn Header="Фаил (КБ)" Binding="{Binding Path=Attachments}" Width="0.5*" />
-                            <DataGridTextColumn Header="Категория" Binding="{Binding Path=Category}" Width="0.2*" />
-                            <DataGridTextColumn Header="Время приемки/отправки" Binding="{Binding Path=Date}" Width="0.2*" />
-                            <DataGridTextColumn Header="Кому(куда)" Binding="{Binding Path=RecivedAddress}" Width="0.4*" />
-                            <DataGridTextColumn Header="Примечание" Binding="{Binding Path=Subject}" Width="*" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-            </StackPanel>
-
-            <!--Status bar -->
-            <StatusBar DockPanel.Dock="Bottom" 
-                       Padding="10 3">
-                <StatusBarItem>
-                    <TextBlock Text="{Binding AddInCopyright}" />
-                </StatusBarItem>
-                <Separator/>
-                <StatusBarItem>
-                    <TextBlock Text="{Binding AddInCompany}" />
-                </StatusBarItem>
-                <Separator/>
-                <StatusBarItem>
-                    <TextBlock Text="{Binding AddInVersion}" />
-                </StatusBarItem>
-            </StatusBar>
-
-        </DockPanel>
-
-    </Grid>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Исх./Вход адрес" Binding="{Binding Path=SenderAddress}" Width="0.4*" />
+                    <DataGridTextColumn Header="Фаил (КБ)" Binding="{Binding Path=Attachments}" Width="0.5*" />
+                    <DataGridTextColumn Header="Категория" Binding="{Binding Path=Category}" Width="0.2*" />
+                    <DataGridTextColumn Header="Время приемки/отправки" Binding="{Binding Path=Date}" Width="0.2*" />
+                    <DataGridTextColumn Header="Кому(куда)" Binding="{Binding Path=RecivedAddress}" Width="0.4*" />
+                    <DataGridTextColumn Header="Примечание" Binding="{Binding Path=Subject}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </StackPanel>
 </Window>
