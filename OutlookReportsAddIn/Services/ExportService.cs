@@ -5,9 +5,9 @@ using Word = Microsoft.Office.Interop.Word;
 
 namespace OutlookReportsAddIn
 {
-    public class ReportHelper
+    public class ExportService
     {
-        public void CreateDoc(DateTime selectedDate, IEnumerable<Mail> emails)
+        public void ToWord(DateTime selectedDate, IEnumerable<Mail> emails, int counter = 1)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace OutlookReportsAddIn
                 {
                     table.Rows.Add(ref beforeRow);
 
-                    table.Cell(intRow, 1).Range.Text = " ";
+                    table.Cell(intRow, 1).Range.Text = counter++.ToString();
                     table.Cell(intRow, 2).Range.Text = mail.SenderAddress;
                     table.Cell(intRow, 3).Range.Text = mail.Attachments;
                     table.Cell(intRow, 4).Range.Text = mail.Category;

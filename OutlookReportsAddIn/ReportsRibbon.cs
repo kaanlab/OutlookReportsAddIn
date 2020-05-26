@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Office.Tools.Ribbon;
+﻿using Microsoft.Office.Tools.Ribbon;
+using OutlookReportsAddIn.Views;
 
 namespace OutlookReportsAddIn
 {
@@ -13,10 +10,22 @@ namespace OutlookReportsAddIn
 
         }
 
-        private void ReportOnOneDay_Click(object sender, RibbonControlEventArgs e)
+        private void OneDayReport_Click(object sender, RibbonControlEventArgs e)
         {
-            ReportsForm form = new ReportsForm();
-            form.Show();
+            var view = new OneDayReportView();
+            view.Show();
+        }
+
+        private void ReportForPeriod_Click(object sender, RibbonControlEventArgs e)
+        {
+            var view = new ReportForPeriodView();
+            view.Show();
+        }
+
+        private void AboutButton_Click(object sender, RibbonControlEventArgs e)
+        {
+            var view = new AboutView();
+            view.Show();
         }
     }
 }

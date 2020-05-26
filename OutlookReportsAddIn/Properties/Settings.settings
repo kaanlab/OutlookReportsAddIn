@@ -5,5 +5,8 @@
     <Setting Name="TemplatePath" Type="System.String" Scope="User">
       <Value Profile="(Default)">D:\repos\JornalTemplate.dotx</Value>
     </Setting>
+    <Setting Name="MailCounter" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

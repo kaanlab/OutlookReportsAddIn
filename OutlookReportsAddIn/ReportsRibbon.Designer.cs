@@ -35,33 +35,55 @@
         private void InitializeComponent()
         {
             this.tab1 = this.Factory.CreateRibbonTab();
-            this.group1 = this.Factory.CreateRibbonGroup();
-            this.ReportOnOneDay = this.Factory.CreateRibbonButton();
+            this.reportsAddIn = this.Factory.CreateRibbonGroup();
+            this.OneDayReport = this.Factory.CreateRibbonButton();
+            this.AboutButton = this.Factory.CreateRibbonButton();
+            this.ReportForPeriod = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
-            this.group1.SuspendLayout();
+            this.reportsAddIn.SuspendLayout();
             this.SuspendLayout();
             // 
             // tab1
             // 
             this.tab1.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
-            this.tab1.Groups.Add(this.group1);
+            this.tab1.Groups.Add(this.reportsAddIn);
             this.tab1.Label = "Отчеты";
             this.tab1.Name = "tab1";
             // 
-            // group1
+            // reportsAddIn
             // 
-            this.group1.Items.Add(this.ReportOnOneDay);
-            this.group1.Label = "Отчет";
-            this.group1.Name = "group1";
+            this.reportsAddIn.Items.Add(this.OneDayReport);
+            this.reportsAddIn.Items.Add(this.ReportForPeriod);
+            this.reportsAddIn.Items.Add(this.AboutButton);
+            this.reportsAddIn.Label = "Сформировать отчет";
+            this.reportsAddIn.Name = "reportsAddIn";
             // 
-            // ReportOnOneDay
+            // OneDayReport
             // 
-            this.ReportOnOneDay.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.ReportOnOneDay.Label = "За день";
-            this.ReportOnOneDay.Name = "ReportOnOneDay";
-            this.ReportOnOneDay.OfficeImageId = "TableShowGridlines";
-            this.ReportOnOneDay.ShowImage = true;
-            this.ReportOnOneDay.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ReportOnOneDay_Click);
+            this.OneDayReport.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.OneDayReport.Label = "За день";
+            this.OneDayReport.Name = "OneDayReport";
+            this.OneDayReport.OfficeImageId = "ManageReplies";
+            this.OneDayReport.ShowImage = true;
+            this.OneDayReport.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.OneDayReport_Click);
+            // 
+            // AboutButton
+            // 
+            this.AboutButton.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.AboutButton.Label = "О доп.";
+            this.AboutButton.Name = "AboutButton";
+            this.AboutButton.OfficeImageId = "Info";
+            this.AboutButton.ShowImage = true;
+            this.AboutButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AboutButton_Click);
+            // 
+            // ReportForPeriod
+            // 
+            this.ReportForPeriod.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.ReportForPeriod.Label = "За период";
+            this.ReportForPeriod.Name = "ReportForPeriod";
+            this.ReportForPeriod.OfficeImageId = "CreateEmail";
+            this.ReportForPeriod.ShowImage = true;
+            this.ReportForPeriod.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ReportForPeriod_Click);
             // 
             // ReportsRibbon
             // 
@@ -71,8 +93,8 @@
             this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.ReportsRibbon_Load);
             this.tab1.ResumeLayout(false);
             this.tab1.PerformLayout();
-            this.group1.ResumeLayout(false);
-            this.group1.PerformLayout();
+            this.reportsAddIn.ResumeLayout(false);
+            this.reportsAddIn.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -80,8 +102,10 @@
         #endregion
 
         internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
-        internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton ReportOnOneDay;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup reportsAddIn;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton OneDayReport;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton AboutButton;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton ReportForPeriod;
     }
 
     partial class ThisRibbonCollection

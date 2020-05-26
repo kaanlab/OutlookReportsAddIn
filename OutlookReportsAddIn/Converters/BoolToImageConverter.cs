@@ -16,12 +16,10 @@ namespace OutlookReportsAddIn
             if (val)
             {
                 return new BitmapImage(new Uri(@"pack://application:,,,/OutlookReportsAddIn;component/Resources/check.png"));
-                //return new BitmapImage(new Uri(@"\Resources\check.png", UriKind.Relative));
             }
             else
             {
                 return new BitmapImage(new Uri(@"pack://application:,,,/OutlookReportsAddIn;component/Resources/error.png"));
-                //return new BitmapImage(new Uri(@"Resources/error.png", UriKind.RelativeOrAbsolute));
             }
         }
 
