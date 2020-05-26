@@ -1,15 +1,16 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 
-namespace OutlookReportsAddIn
+namespace OutlookReportsAddIn.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public void OnPropertyChanged(string name)
+        protected virtual void OnPropertyChanged(string proprtyName)
         {
-            PropertyChanged(this, new PropertyChangedEventArgs(name));
+            PropertyChanged(this, new PropertyChangedEventArgs(proprtyName));
         }
     }
 }

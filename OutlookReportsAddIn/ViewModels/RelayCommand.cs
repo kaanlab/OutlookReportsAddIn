@@ -2,61 +2,40 @@
 using System.Windows.Input;
 
 
-namespace OutlookReportsAddIn
+namespace OutlookReportsAddIn.ViewModels
 {
     public class RelayCommand : ICommand
     {
-        #region Private Members
+        private readonly Action _execute;
+        private readonly Func<bool> _canExecute;
 
-        /// <summary>
-        /// The action to run
-        /// </summary>
-        private Action mAction;
+        public event EventHandler CanExecuteChanged;
 
-        #endregion
-
-        #region Public Events
-
-        /// <summary>
-        /// The event thats fired when the <see cref="CanExecute(object)"/> value has changed
-        /// </summary>
-        public event EventHandler CanExecuteChanged = (sender, e) => { };
-
-        #endregion
-
-        #region Constructor
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public RelayCommand(Action action)
+        public RelayCommand(Action execute) : this(execute, null)
         {
-            mAction = action;
         }
 
-        #endregion
+        public RelayCommand(Action execute, Func<bool> canExecute)
+        {
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            _canExecute = canExecute;
+        }
 
-        #region Command Methods
-
-        /// <summary>
-        /// A relay command can always execute
-        /// </summary>
-        /// <param name="parameter"></param>
-        /// <returns></returns>
         public bool CanExecute(object parameter)
         {
-            return true;
+            return _canExecute?.Invoke() ?? true;
         }
 
-        /// <summary>
-        /// Executes the commands Action
-        /// </summary>
-        /// <param name="parameter"></param>
         public void Execute(object parameter)
         {
-            mAction();
+            _execute();
         }
 
-        #endregion
+        public void RaiseCanExecuteChanged()
+        {
+            var handler = CanExecuteChanged;
+            handler?.Invoke(this, EventArgs.Empty);
+        }
     }
 }
+
