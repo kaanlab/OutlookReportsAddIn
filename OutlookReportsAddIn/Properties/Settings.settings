@@ -8,5 +8,8 @@
     <Setting Name="MailCounter" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
+    <Setting Name="MailAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">kantyshev777@inbox.ru</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

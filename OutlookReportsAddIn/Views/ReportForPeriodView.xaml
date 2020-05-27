@@ -5,8 +5,100 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:OutlookReportsAddIn.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+            Title="{Binding WindowTitle}"
+             MinHeight="450" 
+             MinWidth="600"
+             Height="450" 
+             Width="800" >
+    
+    <!--Main content -->
+    <StackPanel>
+        <!-- Datepicker -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="0.6*"></ColumnDefinition>
+                <ColumnDefinition Width="0.4*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <!-- Row counter -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Label>Строка таблицы</Label>
+                <TextBox Text="{Binding MailsCounter}" Margin="4" Padding="4"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal">
+            <DatePicker Margin="10 10"
+                                
+                                VerticalAlignment="Center"
+                                SelectedDate="{Binding StartDate}"
+                                SelectedDateFormat="Short">
+                <DatePicker.Resources>
+                    <Style TargetType="DatePickerTextBox">
+                        <Setter Property="IsReadOnly" Value="True"/>
+                    </Style>
+                </DatePicker.Resources>
+            </DatePicker>
+
+            <DatePicker Margin="10 10"
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                SelectedDate="{Binding EndDate}"
+                                SelectedDateFormat="Short">
+                <DatePicker.Resources>
+                    <Style TargetType="DatePickerTextBox">
+                        <Setter Property="IsReadOnly" Value="True"/>
+                    </Style>
+                </DatePicker.Resources>
+            </DatePicker>
+                </StackPanel>
+                
+
+            <!-- Generate datagrid for current date button -->
+            <Button  Margin="10 10"
+                             Padding="5 5"
+                             Grid.Column="2"
+                             Content="Сформировать отчет"
+                             Command="{Binding FetchItemsCommand}"
+                             HorizontalAlignment="Center" />
+
+            <!-- Generate report button -->
+            <Button Margin="10 10"
+                            Padding="5 5"
+                            Grid.Column="3"
+                            Content="Печать"
+                            IsEnabled="{Binding HasItems}"
+                            Command="{Binding CreateReportCommand}"
+                            HorizontalAlignment="Right" />
+
+        </Grid>
+
+        <Separator/>
+
+        <StackPanel>
+            <!-- DataGrid -->
+            <TextBlock Margin="10 3" 
+                               Text="{Binding SetDate, StringFormat='Письма за {0:dd.MM.yyyy}'}" />
+
+            <DataGrid Margin="10 5"
+                              ItemsSource="{Binding ItemsCollection}" 
+                              AutoGenerateColumns="False" 
+                              HorizontalGridLinesBrush="DarkGray"
+                              RowBackground="LightGray" 
+                              AlternatingRowBackground="White"
+                              ScrollViewer.CanContentScroll="False"
+                              CanUserAddRows="False"
+                              Height="310">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Исх./Вход адрес" Binding="{Binding Path=SenderAddress}" Width="0.4*" />
+                    <DataGridTextColumn Header="Фаил (КБ)" Binding="{Binding Path=Attachments}" Width="0.5*" />
+                    <DataGridTextColumn Header="Категория" Binding="{Binding Path=Category}" Width="0.2*" />
+                    <DataGridTextColumn Header="Время приемки/отправки" Binding="{Binding Path=Date}" Width="0.2*" />
+                    <DataGridTextColumn Header="Кому(куда)" Binding="{Binding Path=RecivedAddress}" Width="0.4*" />
+                    <DataGridTextColumn Header="Примечание" Binding="{Binding Path=Subject}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </StackPanel>
 </Window>

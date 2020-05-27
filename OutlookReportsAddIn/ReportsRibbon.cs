@@ -22,9 +22,10 @@ namespace OutlookReportsAddIn
             view.Show();
         }
 
-        private void AboutButton_Click(object sender, RibbonControlEventArgs e)
+
+        private void SettingsButton_Click(object sender, RibbonControlEventArgs e)
         {
-            var view = new AboutView();
+            var view = new SettingsView();
             view.Show();
         }
     }

@@ -1,23 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using Word = Microsoft.Office.Interop.Word;
+using System.Linq;
+using System.Runtime.InteropServices;
+using WordInterop = Microsoft.Office.Interop.Word;
 
 
 namespace OutlookReportsAddIn
 {
     public class ExportService
     {
-        public void ToWord(DateTime selectedDate, IEnumerable<Mail> emails, int counter = 1)
+        private WordInterop.Application word;
+        private WordInterop.Document document;
+        public void ToWord(IEnumerable<Mail> emails, int counter = 1)
         {
             try
             {
                 //Create an instance for word app
-                Word.Application winword = new Word.Application
+                word = new WordInterop.Application
                 {
                     //Set animation status for word application
                     ShowAnimation = false,
                     //Set status for word application is to be visible or not.
-                    Visible = false
+                    Visible = false,
+                    DisplayAlerts = WordInterop.WdAlertLevel.wdAlertsNone
 
                 };
 
@@ -25,18 +30,18 @@ namespace OutlookReportsAddIn
                 object missing = System.Reflection.Missing.Value;
 
                 //Use ConfigurationHelper class to read OutlookReportsAddIn.dll.config 
-                
-                object filepath = Properties.Settings.Default.TemplatePath; 
+
+                object filepath = Properties.Settings.Default.TemplatePath;
 
                 //Create a new document
-                Word.Document document = winword.Documents.Add(ref filepath, ref missing, ref missing, ref missing);
+                document = word.Documents.Add(ref filepath, ref missing, ref missing, ref missing);
 
                 //Add paragraph 
-                Word.Paragraph parag = document.Content.Paragraphs.Add(ref missing);
+                WordInterop.Paragraph parag = document.Content.Paragraphs.Add(ref missing);
                 parag.Range.InsertParagraphAfter();
 
                 //Create new table in paragraph
-                Word.Table table = document.Tables.Add(parag.Range, 3, 8, ref missing, ref missing);
+                WordInterop.Table table = document.Tables.Add(parag.Range, 3, 8, ref missing, ref missing);
 
                 // Add border
                 table.Borders.Enable = 1;
@@ -60,7 +65,7 @@ namespace OutlookReportsAddIn
                 table.Cell(1, 6).Range.Text = "Кому (куда) адресована (адрес электронной почты)";
                 table.Cell(1, 7).Range.Text = "Фамилия, инициалы и роспись дежурного по ШО";
                 table.Cell(1, 8).Range.Text = "Примечание";
-                table.Rows[1].Range.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                table.Rows[1].Range.ParagraphFormat.Alignment = WordInterop.WdParagraphAlignment.wdAlignParagraphCenter;
 
                 // Second row
                 table.Cell(2, 1).Range.Text = "1";
@@ -71,7 +76,7 @@ namespace OutlookReportsAddIn
                 table.Cell(2, 6).Range.Text = "6";
                 table.Cell(2, 7).Range.Text = "7";
                 table.Cell(2, 8).Range.Text = "8";
-                table.Rows[2].Range.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                table.Rows[2].Range.ParagraphFormat.Alignment = WordInterop.WdParagraphAlignment.wdAlignParagraphCenter;
 
                 //
                 // Third row in the end of method
@@ -83,40 +88,75 @@ namespace OutlookReportsAddIn
                 // Retrieve the data and insert into new rows.
                 object beforeRow = Type.Missing;
 
-                foreach (var mail in emails)
+                var groupMailsByDate = emails.GroupBy(e => e.Date.ToShortDateString()).ToList();
+
+                foreach (var mails in groupMailsByDate)
                 {
-                    table.Rows.Add(ref beforeRow);
+                    var dateKey = mails.Key;
+                    // Merge cells in third row and insert date from datepicker 
+                    table.Rows[3].Cells[7].Merge(table.Rows[3].Cells[8]);
+                    table.Rows[3].Cells[6].Merge(table.Rows[3].Cells[7]);
+                    table.Rows[3].Cells[5].Merge(table.Rows[3].Cells[6]);
+                    table.Rows[3].Cells[4].Merge(table.Rows[3].Cells[5]);
+                    table.Rows[3].Cells[3].Merge(table.Rows[3].Cells[4]);
+                    table.Rows[3].Cells[2].Merge(table.Rows[3].Cells[3]);
+                    table.Rows[3].Cells[1].Merge(table.Rows[3].Cells[2]);
+                    table.Cell(3, 1).Range.Text = dateKey;
+                    table.Cell(3, 1).Range.ParagraphFormat.Alignment = WordInterop.WdParagraphAlignment.wdAlignParagraphCenter;
 
-                    table.Cell(intRow, 1).Range.Text = counter++.ToString();
-                    table.Cell(intRow, 2).Range.Text = mail.SenderAddress;
-                    table.Cell(intRow, 3).Range.Text = mail.Attachments;
-                    table.Cell(intRow, 4).Range.Text = mail.Category;
-                    table.Cell(intRow, 5).Range.Text = mail.Date.ToShortTimeString();
-                    table.Cell(intRow, 6).Range.Text = mail.RecivedAddress;
-                    table.Cell(intRow, 7).Range.Text = " ";
-                    table.Cell(intRow, 8).Range.Text = mail.Subject;
+                    foreach (var mail in mails)
+                    {
+                        table.Rows.Add(ref beforeRow);
 
-                    intRow += 1;
+                        table.Cell(intRow, 1).Range.Text = counter++.ToString();
+                        table.Cell(intRow, 2).Range.Text = mail.SenderAddress;
+                        table.Cell(intRow, 3).Range.Text = mail.Attachments;
+                        table.Cell(intRow, 4).Range.Text = mail.Category;
+                        table.Cell(intRow, 5).Range.Text = mail.Date.ToShortTimeString();
+                        table.Cell(intRow, 6).Range.Text = mail.RecivedAddress;
+                        table.Cell(intRow, 7).Range.Text = " ";
+                        table.Cell(intRow, 8).Range.Text = mail.Subject;
+
+                        intRow += 1;
+                    }
                 }
 
-                // Merge cells in third row and insert date from datepicker 
-                table.Rows[3].Cells[7].Merge(table.Rows[3].Cells[8]);
-                table.Rows[3].Cells[6].Merge(table.Rows[3].Cells[7]);
-                table.Rows[3].Cells[5].Merge(table.Rows[3].Cells[6]);
-                table.Rows[3].Cells[4].Merge(table.Rows[3].Cells[5]);
-                table.Rows[3].Cells[3].Merge(table.Rows[3].Cells[4]);
-                table.Rows[3].Cells[2].Merge(table.Rows[3].Cells[3]);
-                table.Rows[3].Cells[1].Merge(table.Rows[3].Cells[2]);
-                table.Cell(3, 1).Range.Text = selectedDate.ToLongDateString();
-                table.Cell(3, 1).Range.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                
 
-                winword.Visible = true;
+                SaveDialog(document);
             }
             catch (Exception ex)
             {
                 ex.ToString();
             }
+            finally
+            {
+                document.Close(null, null, null);
+                word.Quit();
+                if (document != null)
+                    Marshal.ReleaseComObject(document);
+            }
 
+        }
+
+        private void SaveDialog(WordInterop.Document document)
+        {
+            Microsoft.Win32.SaveFileDialog dialogBox = new Microsoft.Win32.SaveFileDialog();
+            dialogBox.DefaultExt = ".pdf";
+            dialogBox.Filter = "Word documents (.docx)|*.docx|PDF documents (.pdf)|*.pdf";
+            bool? result = dialogBox.ShowDialog();
+            if (result == true)
+            {
+                string fileName = dialogBox.FileName;
+                if (fileName.EndsWith(".docx"))
+                {
+                    document.SaveAs(fileName);
+                }
+                else if (fileName.EndsWith(".pdf"))
+                {
+                    document.ExportAsFixedFormat(fileName, WordInterop.WdExportFormat.wdExportFormatPDF);
+                }
+            }
         }
     }
 }

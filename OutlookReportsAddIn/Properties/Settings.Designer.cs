@@ -46,5 +46,17 @@ namespace OutlookReportsAddIn.Properties {
                 this["MailCounter"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("kantyshev777@inbox.ru")]
+        public string MailAddress {
+            get {
+                return ((string)(this["MailAddress"]));
+            }
+            set {
+                this["MailAddress"] = value;
+            }
+        }
     }
 }

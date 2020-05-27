@@ -37,8 +37,8 @@
             this.tab1 = this.Factory.CreateRibbonTab();
             this.reportsAddIn = this.Factory.CreateRibbonGroup();
             this.OneDayReport = this.Factory.CreateRibbonButton();
-            this.AboutButton = this.Factory.CreateRibbonButton();
             this.ReportForPeriod = this.Factory.CreateRibbonButton();
+            this.SettingsButton = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.reportsAddIn.SuspendLayout();
             this.SuspendLayout();
@@ -54,7 +54,7 @@
             // 
             this.reportsAddIn.Items.Add(this.OneDayReport);
             this.reportsAddIn.Items.Add(this.ReportForPeriod);
-            this.reportsAddIn.Items.Add(this.AboutButton);
+            this.reportsAddIn.Items.Add(this.SettingsButton);
             this.reportsAddIn.Label = "Сформировать отчет";
             this.reportsAddIn.Name = "reportsAddIn";
             // 
@@ -67,15 +67,6 @@
             this.OneDayReport.ShowImage = true;
             this.OneDayReport.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.OneDayReport_Click);
             // 
-            // AboutButton
-            // 
-            this.AboutButton.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.AboutButton.Label = "О доп.";
-            this.AboutButton.Name = "AboutButton";
-            this.AboutButton.OfficeImageId = "Info";
-            this.AboutButton.ShowImage = true;
-            this.AboutButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AboutButton_Click);
-            // 
             // ReportForPeriod
             // 
             this.ReportForPeriod.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -84,6 +75,15 @@
             this.ReportForPeriod.OfficeImageId = "CreateEmail";
             this.ReportForPeriod.ShowImage = true;
             this.ReportForPeriod.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ReportForPeriod_Click);
+            // 
+            // SettingsButton
+            // 
+            this.SettingsButton.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.SettingsButton.Label = "Настройки";
+            this.SettingsButton.Name = "SettingsButton";
+            this.SettingsButton.OfficeImageId = "FileProperties";
+            this.SettingsButton.ShowImage = true;
+            this.SettingsButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.SettingsButton_Click);
             // 
             // ReportsRibbon
             // 
@@ -104,7 +104,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup reportsAddIn;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton OneDayReport;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton AboutButton;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton SettingsButton;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton ReportForPeriod;
     }
 

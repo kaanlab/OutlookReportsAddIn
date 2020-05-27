@@ -193,6 +193,8 @@
   -->
   <ItemGroup>
     <Compile Include="Converters\BoolToImageConverter.cs" />
+    <Compile Include="Extentions\FiltredItemsExtentions.cs" />
+    <Compile Include="Extentions\ModelMappingExtentions.cs" />
     <Compile Include="Helpers\DateTimeHelpers.cs" />
     <Compile Include="Services\MaiService.cs" />
     <Compile Include="Services\ExportService.cs" />
@@ -206,13 +208,13 @@
     <Compile Include="ReportsRibbon.Designer.cs">
       <DependentUpon>ReportsRibbon.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\AboutViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\OneDayReportViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\ReportForPeriodViewModel.cs" />
-    <Compile Include="Views\AboutView.xaml.cs">
-      <DependentUpon>AboutView.xaml</DependentUpon>
+    <Compile Include="Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OneDayReportView.xaml.cs">
       <DependentUpon>OneDayReportView.xaml</DependentUpon>
@@ -264,7 +266,7 @@
     <Resource Include="Resources\error.png" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\AboutView.xaml">
+    <Page Include="Views\SettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
