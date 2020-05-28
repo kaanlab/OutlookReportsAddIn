@@ -23,7 +23,6 @@ namespace OutlookReportsAddIn
                     //Set status for word application is to be visible or not.
                     Visible = false,
                     DisplayAlerts = WordInterop.WdAlertLevel.wdAlertsNone
-
                 };
 
                 //Create a missing variable for missing value
@@ -78,34 +77,26 @@ namespace OutlookReportsAddIn
                 table.Cell(2, 8).Range.Text = "8";
                 table.Rows[2].Range.ParagraphFormat.Alignment = WordInterop.WdParagraphAlignment.wdAlignParagraphCenter;
 
-                //
-                // Third row in the end of method
-                //
-
-                // Fourth row
-                int intRow = 4;
+                int intRow = 3;
 
                 // Retrieve the data and insert into new rows.
                 object beforeRow = Type.Missing;
 
                 var groupMailsByDate = emails.GroupBy(e => e.Date.ToShortDateString()).ToList();
-
+                
+                // Third row
                 foreach (var mails in groupMailsByDate)
                 {
                     var dateKey = mails.Key;
-                    // Merge cells in third row and insert date from datepicker 
-                    table.Rows[3].Cells[7].Merge(table.Rows[3].Cells[8]);
-                    table.Rows[3].Cells[6].Merge(table.Rows[3].Cells[7]);
-                    table.Rows[3].Cells[5].Merge(table.Rows[3].Cells[6]);
-                    table.Rows[3].Cells[4].Merge(table.Rows[3].Cells[5]);
-                    table.Rows[3].Cells[3].Merge(table.Rows[3].Cells[4]);
-                    table.Rows[3].Cells[2].Merge(table.Rows[3].Cells[3]);
-                    table.Rows[3].Cells[1].Merge(table.Rows[3].Cells[2]);
-                    table.Cell(3, 1).Range.Text = dateKey;
-                    table.Cell(3, 1).Range.ParagraphFormat.Alignment = WordInterop.WdParagraphAlignment.wdAlignParagraphCenter;
+                    table.Rows.Add(ref beforeRow);
+                    table.Cell(intRow, 3).Range.Text = dateKey;
+                    table.Cell(intRow, 3).Range.ParagraphFormat.Alignment = WordInterop.WdParagraphAlignment.wdAlignParagraphCenter;
+
+                    intRow++;
 
                     foreach (var mail in mails)
                     {
+                        // Fourth row
                         table.Rows.Add(ref beforeRow);
 
                         table.Cell(intRow, 1).Range.Text = counter++.ToString();
@@ -120,9 +111,6 @@ namespace OutlookReportsAddIn
                         intRow += 1;
                     }
                 }
-
-                
-
                 SaveDialog(document);
             }
             catch (Exception ex)
