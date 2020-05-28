@@ -6,15 +6,16 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using OutlookReportsAddIn.Helpers;
 
 namespace OutlookReportsAddIn.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {
         public static string AssemblyVersion { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
-        public static string AssemblyCopyright { get { return GetExecutingAssemblyAttribute<AssemblyCopyrightAttribute>(a => a.Copyright); } }
-        public static string AssemblyCompany { get { return GetExecutingAssemblyAttribute<AssemblyCompanyAttribute>(a => a.Company); } }
-        public static string WindowTitle { get => "Об этом дополнении"; }
+        public static string AssemblyCopyright { get { return AssemblyAttributeHelper.GetExecutingAssemblyAttribute<AssemblyCopyrightAttribute>(a => a.Copyright); } }
+        public static string AssemblyCompany { get { return AssemblyAttributeHelper.GetExecutingAssemblyAttribute<AssemblyCompanyAttribute>(a => a.Company); } }
+        public static string WindowTitle { get => "Настройки"; }
 
         private string _mailAddress = Properties.Settings.Default.MailAddress;
         public string MailAddress
@@ -58,12 +59,6 @@ namespace OutlookReportsAddIn.ViewModels
             SaveCommand = new RelayCommand(Save);
         }
 
-        private static string GetExecutingAssemblyAttribute<T>(Func<T, string> value) where T : Attribute
-        {
-            T attribute = (T)Attribute.GetCustomAttribute(Assembly.GetExecutingAssembly(), typeof(T));
-            return value.Invoke(attribute);
-        }
-
         private void Save()
         {
             Properties.Settings.Default.MailAddress = MailAddress;
@@ -88,7 +83,6 @@ namespace OutlookReportsAddIn.ViewModels
                 TemplatePath = Properties.Settings.Default.TemplatePath;
                 IsTemplatePathExsist = true; // update image     
             }
-
         }
     }
 }

@@ -51,8 +51,28 @@ namespace OutlookReportsAddIn.ViewModels
             }
         }
 
-        public DateTime StartDate { get; set; } = DateTime.Now.BeginningOfTheMonth();
-        public DateTime EndDate { get; set; } = DateTime.Now.EndOfTheMonth();
+        private DateTime _startDate = DateTime.Now.BeginningOfTheMonth();
+        public DateTime StartDate
+        {
+            get => _startDate;
+            set
+            {
+                _startDate = value;
+                OnPropertyChanged("StartDate");
+            }
+        }
+
+        private DateTime _endDate = DateTime.Now.EndOfTheMonth();
+        public DateTime EndDate
+        {
+            get => _endDate;
+            set
+            {
+                _endDate = value;
+                OnPropertyChanged("EndDate");
+            }
+        }
+
         public ICommand FetchItemsCommand { get; }
         public ICommand CreateReportCommand { get; }
 

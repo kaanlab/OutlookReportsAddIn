@@ -6,8 +6,11 @@
              xmlns:local="clr-namespace:OutlookReportsAddIn.Views"
              xmlns:res="clr-namespace:OutlookReportsAddIn"
              mc:Ignorable="d" 
-        Title="{Binding WindowTitle}"
-             d:DesignHeight="450" d:DesignWidth="800">
+             Title="{Binding WindowTitle}"
+             MinHeight="360" 
+             MinWidth="400"
+             Height="360" 
+             Width="400" >
 
     <Window.Resources>
         <ResourceDictionary>
@@ -16,37 +19,72 @@
     </Window.Resources>
 
     <Grid>
-        <StackPanel >
-            <!-- Template path -->
-            <StackPanel Orientation="Horizontal"                                 
-                                HorizontalAlignment="Left">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
+        <!-- Template settings -->
+        <GroupBox Header="Путь к шаблону:" Margin="5" >
+            <DockPanel>
                 <Image Margin="5 5"
                                Source="{Binding IsTemplatePathExsist, Converter={StaticResource BoolToImageConv}}"
                                Height="26" 
                                Width="26"/>
 
-                <TextBlock Margin="10 10"
+                <TextBlock Margin="5 5"
                                    Padding="5 5"
                                    Text="{Binding TemplatePath}"
                                    VerticalAlignment="Center"
                                    TextTrimming="CharacterEllipsis" />
-            </StackPanel>
 
-            <TextBox Text="{Binding MailAddress}" />
-
-            <!-- Set template button -->
-            <Button Margin="10 10"
+                <Button Margin="5 5"
                             Padding="5 5"
-                            Content="Шаблон"
-                            Command="{Binding SetTemplatePathCommand}" />
-            <Button Margin="10 10"
+                            Content="Выбрать"
+                            Command="{Binding SetTemplatePathCommand}" 
+                            HorizontalAlignment="Right" />
+            </DockPanel>
+        </GroupBox >
+
+        <!-- Email settings -->
+        <GroupBox Grid.Row="1" Header="Электронный адрес для отчета:" Margin="5" >
+            <DockPanel>
+                <TextBox Margin="5 5"                               
+                         Padding="5 5"
+                         Text="{Binding MailAddress}" />
+
+            </DockPanel>
+        </GroupBox>
+
+        <!-- Save settings -->
+        <Button Grid.Row="2" Margin="10 10"
                             Padding="5 5"
                             Content="Сохранить"
-                            Command="{Binding SaveCommand}" />
-            <Label Content="{Binding AssemblyVersion}" />
-            <Label Content="{Binding AssemblyCopyright}" />
-            <Label Content="{Binding AssemblyCompany}" />
-        </StackPanel>
+                            Command="{Binding SaveCommand}" 
+                            HorizontalAlignment="Right" />
+
+        <!-- About -->
+        <GroupBox Grid.Row="3" Header="О дополнении:" Margin="5" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <Image Source="pack://application:,,,/OutlookReportsAddIn;component/Resources/microsoft-outlook_256.png" 
+                           VerticalAlignment="Center" 
+                           HorizontalAlignment="Center" Margin="10" 
+                           RenderOptions.BitmapScalingMode="Fant"/>                      
+                </StackPanel>
+                <DockPanel Grid.Column="1" Margin="5">
+                    <Label Content="{Binding AssemblyVersion}" DockPanel.Dock="Top" Margin="3"/>                    
+                    <Label Content="{Binding AssemblyCompany}" DockPanel.Dock="Top" Margin="3"/>
+                    <Label Content="{Binding AssemblyCopyright}" DockPanel.Dock="Top" Margin="3"/>
+                </DockPanel>
+            </Grid>
+            
+        </GroupBox>
     </Grid>
 </Window>

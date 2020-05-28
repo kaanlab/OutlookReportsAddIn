@@ -49,7 +49,17 @@ namespace OutlookReportsAddIn.ViewModels
             }
         }
 
-        public DateTime SelectedDate { get; set; } = DateTime.Now;
+        private DateTime _selectedDate = DateTime.Now;
+        public DateTime SelectedDate
+        {
+            get => _selectedDate;
+            set
+            {
+                _selectedDate = value;
+                OnPropertyChanged("SelectedDate");
+            }
+        }
+
         public ICommand FetchItemsCommand { get; }
         public ICommand CreateReportCommand { get; }
 
@@ -59,7 +69,7 @@ namespace OutlookReportsAddIn.ViewModels
             _exportService = new ExportService();
 
             FetchItemsCommand = new RelayCommand(FetchItems);
-            CreateReportCommand = new RelayCommand(CreateReport);
+            CreateReportCommand = new RelayCommand(CreateReport);           
         }
 
         private void FetchItems()

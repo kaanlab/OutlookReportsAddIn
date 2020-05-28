@@ -195,6 +195,7 @@
     <Compile Include="Converters\BoolToImageConverter.cs" />
     <Compile Include="Extentions\FiltredItemsExtentions.cs" />
     <Compile Include="Extentions\ModelMappingExtentions.cs" />
+    <Compile Include="Helpers\AssemblyAttributeHelper.cs" />
     <Compile Include="Helpers\DateTimeHelpers.cs" />
     <Compile Include="Services\MaiService.cs" />
     <Compile Include="Services\ExportService.cs" />
@@ -262,6 +263,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="outlook-icon.ico" />
+    <Resource Include="Resources\microsoft-outlook_256.png" />
     <Resource Include="Resources\check.png" />
     <Resource Include="Resources\error.png" />
   </ItemGroup>
