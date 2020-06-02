@@ -13,7 +13,7 @@ namespace OutlookReportsAddIn.Services
         {
             var emailItems = new List<Mail>();
             emailItems.AddRange(SearchIn(datesRange, OlDefaultFolders.olFolderInbox));
-            emailItems.AddRange(SearchIn(datesRange, OlDefaultFolders.olFolderOutbox));
+            emailItems.AddRange(SearchIn(datesRange, OlDefaultFolders.olFolderSentMail));
             emailItems.Sort((x, y) => DateTime.Compare(x.Date, y.Date));
 
             return emailItems;
@@ -22,26 +22,22 @@ namespace OutlookReportsAddIn.Services
         private IEnumerable<Mail> SearchIn((DateTime startDate, DateTime endDate) datesRange, OlDefaultFolders olFolder)
         {
             var emailItems = new List<Mail>();
-            var accounts = Globals.ThisAddIn.Application.ActiveExplorer().Session.Accounts;
 
-            foreach (Account acc in accounts)
+            var stores = Globals.ThisAddIn.Application.ActiveExplorer().Session.Stores;
+
+            foreach (Store store in stores)
             {
-                var stores = acc.Session.Stores;
-
-                foreach (Store store in stores)
+                var folder = store.GetDefaultFolder(olFolder);
+                if (folder.FolderPath.Contains(Properties.Settings.Default.MailAddress))
                 {
-                    var folder = store.GetDefaultFolder(olFolder);
-                    if (folder.FolderPath.Contains(Properties.Settings.Default.MailAddress))
-                    {
-                        var filtredItiems = folder.Items.FiltredByDates(datesRange);
+                    var filtredItiems = folder.Items.FiltredByDates(datesRange);
 
-                        foreach (var item in filtredItiems)
+                    foreach (var item in filtredItiems)
+                    {
+                        if (item is MailItem)
                         {
-                            if (item is MailItem)
-                            {
-                                var olMail = ((MailItem)item);
-                                emailItems.Add(olMail.MapToMail());
-                            }
+                            var olMail = ((MailItem)item);
+                            emailItems.Add(olMail.MapToMail());
                         }
                     }
                 }
