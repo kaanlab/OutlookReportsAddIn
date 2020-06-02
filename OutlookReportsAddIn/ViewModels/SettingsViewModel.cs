@@ -35,7 +35,7 @@ namespace OutlookReportsAddIn.ViewModels
             set
             {
                 _templatePath = value;
-                OnPropertyChanged("TempalatePath");
+                OnPropertyChanged("TemplatePath");
             }
         }
 
